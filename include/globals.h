@@ -1,7 +1,8 @@
-#include "main.h"
-
 #ifndef GLOBALS
 #define GLOBALS
+
+#include "main.h"
+#include <string>
 
 //******************//
 // PORT DEFINITIONS //
@@ -35,11 +36,13 @@ inline pros::Motor intakeR(intakeRPort, true);
 inline pros::Motor arm(armPort, true);
 inline pros::Motor angler(anglerPort, true);
 
-//**********************//
-// AUTONOMOUS SELECTION //
-//**********************//
+//************//
+// AUTONOMOUS //
+//************//
 
 inline int autonomousPreSet = 0;
+inline bool controlStateLogging = false;
+inline std::string logPath = "../include/logs/log1.txt";
 
 //**********************//
 // RUNNING autoFunctions //

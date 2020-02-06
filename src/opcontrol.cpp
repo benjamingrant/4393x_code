@@ -1,10 +1,13 @@
 #include "main.h"
 #include "globals.h"
 #include "autoFunctions.h"
+#include "replay.h"
 #include <cmath>
 #include <sstream>
+#include <fstream>
 
 using namespace pros;
+using namespace std;
 
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -25,6 +28,9 @@ int quadraticAnalogScale(int stickValue){
 }
 
 void opcontrol() {
+    ofstream autonomousLog;
+    autonomousLog.open(logPath, ios::trunc);
+
 	while (true) {
         // control drivetrain motors from master
         int left = master.get_analog(ANALOG_LEFT_Y);
@@ -66,15 +72,30 @@ void opcontrol() {
             intakeR = 0;
         }
 
-        // vibration testing
+        // vibration test button mapping
         if(master.get_digital(DIGITAL_A)){
             master.rumble("...");
         }
 
-        //run autoFunctions in new tasks
+        // autoStack button mapping
         if(master.get_digital(DIGITAL_DOWN) && !autoStackRunning){
             autoStackRunning = true;
             pros::Task my_task(autoStack);
+        }
+
+        //*****************************//
+        // REPLAY (autonomous) LOGGING //
+        //*****************************//
+
+        // controlStateLogging flag button mapping
+        if(master.get_digital(DIGITAL_X)){
+            pros::delay(200); // delay to eliminate double press
+            controlStateLogging = !controlStateLogging;
+        }
+
+        // log ControlState
+        if(controlStateLogging){
+            logCurrentControlState();
         }
 
         // wait 20 ms
