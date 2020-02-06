@@ -1,5 +1,3 @@
-// TEST TEST TEST
-
 #include "autoFunctions.h"
 #include "PID.h"
 #include "main.h"
@@ -35,9 +33,7 @@ unsigned long getV5Time(){
 
 void autoStack(){
     PIDController<double> anglerPID(p, i, d, getAnglerPosition, setAnglerMovement);
-    //set clock function
     anglerPID.registerTimeFunction(getV5Time);
-    //set PID's target
     anglerPID.setTarget(target);
     // set output bounds
     anglerPID.setInputBounded(true);
