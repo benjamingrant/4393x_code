@@ -4,13 +4,6 @@
 
 using namespace pros;
 
-/**
- * A callback function for LLEMU's center button.
- *
- * When this callback is fired, it will toggle line 2 of the LCD text between
- * "I was pressed!" and nothing.
- */
-
  void printAnglerPos(){
      std::stringstream ss1;
      ss1 << "Angler motor displacement from 0:";
@@ -21,12 +14,6 @@ using namespace pros;
      pros::lcd::set_text(3, ss2.str());
  }
 
-/**
- * Runs initialization code. This occurs as soon as the program is started.
- *
- * All other competition modes are blocked by initialize; it is recommended
- * to keep execution time for this mode under a few seconds.
- */
 void initialize() {
 	pros::lcd::initialize();
 	printAnglerPos();

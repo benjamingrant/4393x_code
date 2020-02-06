@@ -1,5 +1,5 @@
 #os files
-*.DS_Store
+.DS_Store
 
 
 /bin

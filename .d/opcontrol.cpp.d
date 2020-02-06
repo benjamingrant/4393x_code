@@ -68,7 +68,7 @@ bin/opcontrol.cpp.o: src/opcontrol.cpp include/main.h include/api.h \
  include/pros/motors.hpp include/pros/motors.h include/pros/rtos.hpp \
  include/pros/rtos.h include/pros/vision.hpp include/pros/vision.h \
  include/globals.h include/main.h include/autoFunctions.h \
- include/replay.h
+ include/replay.h include/display_.h
 
 include/main.h:
 
@@ -335,3 +335,5 @@ include/main.h:
 include/autoFunctions.h:
 
 include/replay.h:
+
+include/display_.h:

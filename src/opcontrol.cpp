@@ -2,6 +2,7 @@
 #include "globals.h"
 #include "autoFunctions.h"
 #include "replay.h"
+#include "display_.h"
 #include <cmath>
 #include <sstream>
 #include <fstream>
@@ -73,7 +74,7 @@ void opcontrol() {
         }
 
         // vibration test button mapping
-        if(master.get_digital(DIGITAL_A)){
+        if(master.get_digital(DIGITAL_X)){
             master.rumble("...");
         }
 
@@ -92,6 +93,7 @@ void opcontrol() {
         if(master.get_digital(DIGITAL_X)){
             pros::delay(200); // delay to eliminate double press
             controlStateLogging = !controlStateLogging;
+            displayControllerText("test");
         }
 
         // log ControlState

@@ -2,6 +2,7 @@
 #include "PID.h"
 #include "main.h"
 #include "globals.h"
+#include "display_.h"
 #include <cmath>
 
 //*********************//
@@ -41,9 +42,9 @@ void autoStack(){
 
     while(fabs(anglerPID.getError()) > 0.03){
         anglerPID.tick(); // this is what actually does the PID controlling
-        pros::delay(20);               // delay 20ms so the smartbrain can think
+        pros::delay(100);              // delay 100ms so the smartbrain can think
     }
 
     autoStackRunning = false;
-    master.rumble("...");
+    master.rumble("- -");
 }
