@@ -79,6 +79,7 @@ void opcontrol() {
 
         // autoStack button mapping
         if(master.get_digital(DIGITAL_DOWN) && !autoStackRunning){
+            pros::delay(200);  // delay to eliminate double press
             autoStackRunning = true;
             pros::Task my_task(autoStack);
         }
