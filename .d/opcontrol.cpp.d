@@ -1,4 +1,4 @@
-/var/folders/fs/7xnvl2f16v918p54xgw1kxjm0000gn/T/tmp6nanwznq/opcontrol.cpp.o: \
+/var/folders/fs/7xnvl2f16v918p54xgw1kxjm0000gn/T/tmppjadnotw/opcontrol.cpp.o: \
  src/opcontrol.cpp include/main.h include/api.h include/pros/adi.h \
  include/pros/colors.h include/pros/imu.h include/pros/llemu.h \
  include/display/lvgl.h include/display/lv_version.h \
@@ -68,7 +68,8 @@
  include/pros/llemu.h include/pros/misc.hpp include/pros/misc.h \
  include/pros/motors.hpp include/pros/motors.h include/pros/rtos.hpp \
  include/pros/rtos.h include/pros/vision.hpp include/pros/vision.h \
- include/globals.h include/main.h include/autoFunctions.h
+ include/globals.h include/main.h include/autoFunctions.h \
+ include/replay.h
 
 include/main.h:
 
@@ -333,3 +334,5 @@ include/globals.h:
 include/main.h:
 
 include/autoFunctions.h:
+
+include/replay.h:

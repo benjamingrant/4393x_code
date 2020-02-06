@@ -1,7 +1,7 @@
-/var/folders/fs/7xnvl2f16v918p54xgw1kxjm0000gn/T/tmppjadnotw/main.cpp.o: \
- src/main.cpp include/main.h include/api.h include/pros/adi.h \
- include/pros/colors.h include/pros/imu.h include/pros/llemu.h \
- include/display/lvgl.h include/display/lv_version.h \
+/var/folders/fs/7xnvl2f16v918p54xgw1kxjm0000gn/T/tmppjadnotw/replay.cpp.o: \
+ src/replay.cpp include/replay.h include/main.h include/api.h \
+ include/pros/adi.h include/pros/colors.h include/pros/imu.h \
+ include/pros/llemu.h include/display/lvgl.h include/display/lv_version.h \
  include/display/lv_misc/lv_log.h include/display/lv_conf.h \
  include/display/lv_conf_checker.h include/display/lv_misc/lv_task.h \
  include/display/lv_misc/lv_mem.h include/display/lv_misc/lv_log.h \
@@ -68,7 +68,9 @@
  include/pros/llemu.h include/pros/misc.hpp include/pros/misc.h \
  include/pros/motors.hpp include/pros/motors.h include/pros/rtos.hpp \
  include/pros/rtos.h include/pros/vision.hpp include/pros/vision.h \
- include/globals.h include/main.h
+ include/globals.h
+
+include/replay.h:
 
 include/main.h:
 
@@ -329,5 +331,3 @@ include/pros/vision.hpp:
 include/pros/vision.h:
 
 include/globals.h:
-
-include/main.h:
