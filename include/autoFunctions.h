@@ -6,5 +6,7 @@
 
 void autoStack();
 
+void setAnglerMovement(double v);
+
 
 #endif

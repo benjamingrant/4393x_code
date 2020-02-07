@@ -3,6 +3,7 @@
 #include "main.h"
 #include "globals.h"
 #include "display_.h"
+#include <sstream>
 #include <cmath>
 
 //*********************//
@@ -21,11 +22,16 @@ double getAnglerPosition(){
 }
 // output function
 void setAnglerMovement(double v){
-    angler.move(v);
+    int _v = static_cast<int> (v);
+    angler.move(_v);
 }
 // time function
 unsigned long getV5Time(){
-    return static_cast<unsigned long> (pros::millis());
+    unsigned long time = static_cast<unsigned long> (pros::millis());
+    std::stringstream ss;
+    ss << time;
+    displayControllerText(ss.str());
+    return time;
 }
 
 //****************************************//
@@ -34,11 +40,14 @@ unsigned long getV5Time(){
 
 void autoStack(){
     PIDController<double> anglerPID(p, i, d, getAnglerPosition, setAnglerMovement);
+    anglerPID.setEnabled(true);
     anglerPID.registerTimeFunction(getV5Time);
     anglerPID.setTarget(target);
     // set output bounds
-    anglerPID.setInputBounded(true);
+    anglerPID.setOutputBounded(true);
     anglerPID.setOutputBounds(-117, 117);
+
+    displayControllerText(anglerPID.getError());
 
     while(fabs(anglerPID.getError()) > 0.03){
         anglerPID.tick(); // this is what actually does the PID controlling
@@ -46,5 +55,5 @@ void autoStack(){
     }
 
     autoStackRunning = false;
-    master.rumble("- -");
+    master.rumble("--");
 }

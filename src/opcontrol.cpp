@@ -28,6 +28,10 @@ int quadraticAnalogScale(int stickValue){
     return (stickValue * abs(stickValue)) / 117;
 }
 
+int cubicAnalogScale(int stickValue){
+    return (stickValue^3) / (117^2);
+}
+
 void opcontrol() {
     ofstream autonomousLog;
     autonomousLog.open(logPath, ios::trunc);
@@ -38,6 +42,8 @@ void opcontrol() {
 		int right = master.get_analog(ANALOG_RIGHT_Y);
         int scaledLeft = quadraticAnalogScale(left);    // STICK SCALING (quadratic)
         int scaledRight = quadraticAnalogScale(right);
+        // int scaledLeft = cubicAnalogScale(left);    // STICK SCALING (quadratic)
+        // int scaledRight = cubicAnalogScale(right);
         driveBL = scaledLeft;
         driveFL = scaledLeft;
         driveBR = scaledRight;
@@ -80,9 +86,12 @@ void opcontrol() {
 
         // autoStack button mapping
         if(master.get_digital(DIGITAL_DOWN) && !autoStackRunning){
-            pros::delay(200);  // delay to eliminate double press
+            pros::delay(500);  // delay to eliminate double press
             autoStackRunning = true;
             pros::Task my_task(autoStack);
+            // setAnglerMovement(50);
+            // pros::delay(500);
+            // setAnglerMovement(0);
         }
 
         //*****************************//
@@ -91,7 +100,7 @@ void opcontrol() {
 
         // controlStateLogging flag button mapping
         if(master.get_digital(DIGITAL_X)){
-            pros::delay(200); // delay to eliminate double press
+            pros::delay(500); // delay to eliminate double press
             controlStateLogging = !controlStateLogging;
             displayControllerText("test");
         }

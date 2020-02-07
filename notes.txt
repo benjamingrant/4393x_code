@@ -1,4 +1,10 @@
-try out controller rumble??
+TO DO:
+
+# try out controller rumble?? -- done
+
+try out "shift key" button mapping
+
+
 
 
 angler Motor displacement [in rotations] at end of stacking movement:
