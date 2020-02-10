@@ -16,7 +16,7 @@ double i = 1;
 double d = 1;
 double target = 4.2;
 double targetError = 0.03;
-// input  function
+// input function
 double getAnglerPosition(){
     return angler.get_position();
 }
@@ -39,17 +39,19 @@ unsigned long getV5Time(){
 //****************************************//
 
 void autoStack(){
+    // PID loop to control the angler motor (bring tray to 90º)
     PIDController<double> anglerPID(p, i, d, getAnglerPosition, setAnglerMovement);
+    // setup
     anglerPID.setEnabled(true);
     anglerPID.registerTimeFunction(getV5Time);
     anglerPID.setTarget(target);
-    // set output bounds
-    anglerPID.setOutputBounded(true);
-    anglerPID.setOutputBounds(-117, 117);
+    anglerPID.setOutputBounds(-117.0, 117.0);
 
+    // debug
     displayControllerText(anglerPID.getError());
 
-    while(fabs(anglerPID.getError()) > 0.03){
+    // PID loop
+    while(std::abs(anglerPID.getError()) >= targetError){
         anglerPID.tick(); // this is what actually does the PID controlling
         pros::delay(100);              // delay 100ms so the smartbrain can think
     }

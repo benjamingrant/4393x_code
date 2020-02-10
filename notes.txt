@@ -1,11 +1,15 @@
 TO DO:
 
-# try out controller rumble?? -- done
+# Try out controller rumble
 
-try out "shift key" button mapping
+- Try out "shift key" button mapping
+
+- Try reversing the angler motor to fix autoStack
 
 
 
+
+DATA:
 
 angler Motor displacement [in rotations] at end of stacking movement:
         -   4.2 rotations

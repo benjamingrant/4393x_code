@@ -60,9 +60,9 @@ void opcontrol() {
 
         // control angler motor from master
         if(master.get_digital(DIGITAL_LEFT)){
-            angler = -127;
-        } else if(master.get_digital(DIGITAL_RIGHT)){
             angler = 127;
+        } else if(master.get_digital(DIGITAL_RIGHT)){
+            angler = -127;
         } else {
             angler = 0;
         }
@@ -88,7 +88,8 @@ void opcontrol() {
         if(master.get_digital(DIGITAL_DOWN) && !autoStackRunning){
             pros::delay(500);  // delay to eliminate double press
             autoStackRunning = true;
-            pros::Task my_task(autoStack);
+            pros::Task stack(autoStack);
+            stack.get_state();
             // setAnglerMovement(50);
             // pros::delay(500);
             // setAnglerMovement(0);

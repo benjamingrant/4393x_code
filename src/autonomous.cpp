@@ -1,5 +1,6 @@
 #include "main.h"
 #include "globals.h"
+#include "autoFunctions.h"
 
 using namespace pros;
 
@@ -15,4 +16,15 @@ using namespace pros;
  * from where it left off.
  */
 void autonomous() {
+    // start running intake
+
+    // drive forward to pick up cubes
+
+    // stop intake
+
+    // navigate to the stack zone
+
+    // spit out intake a little bit
+
+    // start autoStack in a new task
 }

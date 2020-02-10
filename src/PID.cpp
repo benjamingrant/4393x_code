@@ -184,9 +184,8 @@ T PIDController<T>::getOutput()
   return output;
 }
 
-/**
+/*
  * Returns the last read feedback of this PIDController.
- * @return The
  */
 template <class T>
 T PIDController<T>::getFeedback()
@@ -194,9 +193,8 @@ T PIDController<T>::getFeedback()
   return currentFeedback;
 }
 
-/**
+/*
  * Returns the last calculated error of this PIDController.
- * @return The last calculated error of this PIDController.
  */
 template <class T>
 T PIDController<T>::getError()
