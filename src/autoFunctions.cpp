@@ -3,8 +3,6 @@
 #include "main.h"
 #include "globals.h"
 #include "display_.h"
-#include <sstream>
-#include <cmath>
 
 //*********************//
 // autoStack PID Setup //
@@ -22,15 +20,19 @@ double getAnglerPosition(){
 }
 // output function
 void setAnglerMovement(double v){
-    int _v = static_cast<int> (v);
+    std::int32_t _v = static_cast<int32_t> (v);
     angler.move(_v);
 }
 // time function
 unsigned long getV5Time(){
     unsigned long time = static_cast<unsigned long> (pros::millis());
+
+    // <debug>
     std::stringstream ss;
     ss << time;
     displayControllerText(ss.str());
+    // </debug>
+
     return time;
 }
 
@@ -39,7 +41,7 @@ unsigned long getV5Time(){
 //****************************************//
 
 void autoStack(){
-    // PID loop to control the angler motor (bring tray to 90º)
+    // PID loop to control the angler motor (i. e. bring the tray to 90º)
     PIDController<double> anglerPID(p, i, d, getAnglerPosition, setAnglerMovement);
     // setup
     anglerPID.setEnabled(true);
@@ -47,8 +49,9 @@ void autoStack(){
     anglerPID.setTarget(target);
     anglerPID.setOutputBounds(-117.0, 117.0);
 
-    // debug
+    // <debug>
     displayControllerText(anglerPID.getError());
+    // </debug>
 
     // PID loop
     while(std::abs(anglerPID.getError()) >= targetError){

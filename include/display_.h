@@ -9,6 +9,7 @@ void displayControllerText(std::string msg);
 void displayControllerText(double data);
 void displayControllerText(int data);
 void displayControllerText(unsigned long data);
+void displayControllerError(std::string msg);
 
 
 #endif

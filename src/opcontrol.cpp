@@ -3,9 +3,6 @@
 #include "autoFunctions.h"
 #include "replay.h"
 #include "display_.h"
-#include <cmath>
-#include <sstream>
-#include <fstream>
 
 using namespace pros;
 using namespace std;
@@ -24,6 +21,10 @@ using namespace std;
  * task, not resume it from where it left off.
  */
 
+ //******************//
+ // OPERATOR CONTROL //
+ //******************//
+
 int quadraticAnalogScale(int stickValue){
     return (stickValue * abs(stickValue)) / 117;
 }
@@ -33,9 +34,6 @@ int cubicAnalogScale(int stickValue){
 }
 
 void opcontrol() {
-    ofstream autonomousLog;
-    autonomousLog.open(logPath, ios::trunc);
-
 	while (true) {
         // control drivetrain motors from master
         int left = master.get_analog(ANALOG_LEFT_Y);
@@ -95,18 +93,30 @@ void opcontrol() {
             // setAnglerMovement(0);
         }
 
-        //*****************************//
-        // REPLAY (autonomous) LOGGING //
-        //*****************************//
+//*****************************//
+// REPLAY (autonomous) LOGGING //
+//*****************************//
 
-        // controlStateLogging flag button mapping
+        // controlStateLogging toggle button mapping
         if(master.get_digital(DIGITAL_X)){
             pros::delay(500); // delay to eliminate double press
-            controlStateLogging = !controlStateLogging;
-            displayControllerText("test");
+            if(!pros::usd::is_installed()){
+                displayControllerError("No micro SD inserted!");
+                break;
+            }
+
+            if(!controlStateLogging){
+                replay_log = generateLogFile();
+                controlStateLogging = true;
+                displayControllerText("Recording started :-)");
+            } else {
+                replay_log.close();
+                controlStateLogging = false;
+                displayControllerText("Recording ended.");
+            }
         }
 
-        // log ControlState
+        // log current ControlState if controlStateLogging is toggled
         if(controlStateLogging){
             logCurrentControlState();
         }

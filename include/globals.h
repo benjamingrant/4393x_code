@@ -2,7 +2,7 @@
 #define GLOBALS
 
 #include "main.h"
-#include <string>
+#include "replay.h"
 
 //******************//
 // PORT DEFINITIONS //
@@ -42,7 +42,7 @@ inline pros::Motor angler(anglerPort);
 
 inline int autonomousPreSet = 0;
 inline bool controlStateLogging = false;
-inline std::string logPath = "../include/logs/log1.txt";
+inline std::fstream replay_log;
 
 //**********************//
 // RUNNING autoFunctions //

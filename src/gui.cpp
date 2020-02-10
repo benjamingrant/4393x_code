@@ -1,6 +1,6 @@
 #include "gui.h"
 #include "main.h"
-#include <stdlib.h>
+#include "display/lvgl.h"
 
 static lv_res_t btn_click_action(lv_obj_t * btn)
 {

@@ -1,6 +1,5 @@
 #include "main.h"
 #include "globals.h"
-#include <sstream>
 
 using namespace pros;
 

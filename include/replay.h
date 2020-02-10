@@ -12,9 +12,13 @@ public:
     ControlState(std::uint32_t timeStamp, std::vector<int> motorVoltages) : timeStamp{timeStamp}, motorVoltages{motorVoltages} {};
     std::uint32_t getTimeStamp(){return timeStamp;};
     std::vector<int> getMotorVoltages(){return motorVoltages;};
-    void log();
+    void writeTolog();
 };
 
+// writes to the current replay log file
 void logCurrentControlState();
+
+// returns new log file created on the micro sd
+std::fstream generateLogFile();
 
 #endif

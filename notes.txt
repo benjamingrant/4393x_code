@@ -4,7 +4,7 @@ TO DO:
 
 - Try out "shift key" button mapping
 
-- Try reversing the angler motor to fix autoStack
+# Try reversing the angler motor to fix autoStack
 
 
 
@@ -13,3 +13,11 @@ DATA:
 
 angler Motor displacement [in rotations] at end of stacking movement:
         -   4.2 rotations
+
+
+REPLAY LOGGING:
+
+- entry example:
+        20ms - state{driveBL: 0, driveBR: 100, driveFL: 0, driveFR: 100, intakeL: 127, intakeR: 127, arm: 0, angler: 0};
+        40ms - state{driveBL: 0, driveBR: 50, driveFL: 0, driveFR: 50, intakeL: 0, intakeR: 0, arm: 0, angler: 0};
+        60ms - state{driveBL: 0, driveBR: -20, driveFL: 0, driveFR: -20, intakeL: 0, intakeR: 0, arm: 0, angler: 0};

@@ -1,22 +1,58 @@
 #include "replay.h"
 #include "globals.h"
+#include "main.h"
+#include "display_.h"
 
-void ControlState::log(){
-    // --------------------------------------
-    // place file writing (fstream) code here
-    // --------------------------------------
+void ControlState::writeTolog(){
+    replay_log << pros::millis() << "ms - state{";
+    replay_log << "driveBL: " << motorVoltages[0] << ", ";
+    replay_log << "driveBR: " << motorVoltages[1] << ", ";
+    replay_log << "driveFL: " << motorVoltages[2] << ", ";
+    replay_log << "driveFR: " << motorVoltages[3] << ", ";
+    replay_log << "intakeL: " << motorVoltages[4] << ", ";
+    replay_log << "intakeR: " << motorVoltages[5] << ", ";
+        replay_log << "arm: " << motorVoltages[6] << ", ";
+     replay_log << "angler: " << motorVoltages[7] << "};\n";
 }
 
 void logCurrentControlState(){
     // make vector of motor voltages
     std::vector<pros::Motor> motors{driveBL, driveBR, driveFL, driveFR, intakeL, intakeR, arm, angler};
     std::vector<int> motorVoltages;
-    for(int i = 0; i < motors.size(); i++){
-        motorVoltages.push_back(motors[i].get_voltage());
+    for(pros::Motor m : motors){
+        motorVoltages.push_back(m.get_voltage());
     }
 
     // create current control state
     ControlState c{pros::millis(), motorVoltages};
 
-    c.log();
+    c.writeTolog();
+}
+
+// returns new log file created on the micro sd
+std::fstream generateLogFile(){
+    std::fstream outfile;
+    std::fstream master_log;
+    master_log.open("/usd/master_log.txt");
+
+    // write to the end of /usd/fuckup_dump.txt if something goes wrong
+    if(!master_log){
+        displayControllerError("could not open master_log");
+        outfile.open("/usd/fuckup_dump.txt", std::ios::app);
+        return outfile;
+    }
+
+    // create new file and name it according to (int) numLogs stored in /usd/master_log.txt
+    std::string path = "/usd/log-";
+    int numLogs;
+    master_log >> numLogs;
+    path += std::to_string(numLogs + 1);
+    outfile.open(path);
+
+    // write new value of numLogs to /usd/master_log.txt
+
+
+    master_log.close();
+
+    return outfile;
 }
