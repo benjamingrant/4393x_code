@@ -19,6 +19,6 @@ public:
 void logCurrentControlState();
 
 // returns new log file created on the micro sd
-std::fstream generateLogFile();
+std::fstream selectLogFile();
 
 #endif

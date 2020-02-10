@@ -58,9 +58,9 @@ void opcontrol() {
 
         // control angler motor from master
         if(master.get_digital(DIGITAL_LEFT)){
-            angler = 127;
-        } else if(master.get_digital(DIGITAL_RIGHT)){
             angler = -127;
+        } else if(master.get_digital(DIGITAL_RIGHT)){
+            angler = 127;
         } else {
             angler = 0;
         }
@@ -78,8 +78,10 @@ void opcontrol() {
         }
 
         // vibration test button mapping
-        if(master.get_digital(DIGITAL_X)){
-            master.rumble("...");
+        if(master.get_digital(DIGITAL_Y)){
+            pros::delay(500);
+            displayControllerText("test");
+            //master.rumble("...");
         }
 
         // autoStack button mapping
@@ -87,10 +89,10 @@ void opcontrol() {
             pros::delay(500);  // delay to eliminate double press
             autoStackRunning = true;
             pros::Task stack(autoStack);
-            stack.get_state();
-            // setAnglerMovement(50);
-            // pros::delay(500);
-            // setAnglerMovement(0);
+            // stack.get_state();
+            setAnglerMovement(50);
+            pros::delay(500);
+            setAnglerMovement(0);
         }
 
 //*****************************//
@@ -102,17 +104,16 @@ void opcontrol() {
             pros::delay(500); // delay to eliminate double press
             if(!pros::usd::is_installed()){
                 displayControllerError("No micro SD inserted!");
-                break;
-            }
-
-            if(!controlStateLogging){
-                replay_log = generateLogFile();
-                controlStateLogging = true;
-                displayControllerText("Recording started :-)");
             } else {
-                replay_log.close();
-                controlStateLogging = false;
-                displayControllerText("Recording ended.");
+                if(!controlStateLogging){
+                    replay_log = selectLogFile();
+                    controlStateLogging = true;
+                    displayControllerText("Recording started :-)");
+                } else {
+                    replay_log.close();
+                    controlStateLogging = false;
+                    displayControllerText("Recording ended.");
+                }
             }
         }
 

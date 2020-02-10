@@ -34,7 +34,7 @@ inline pros::Motor driveFR(driveFRPort, true);
 inline pros::Motor intakeL(intakeLPort);
 inline pros::Motor intakeR(intakeRPort, true);
 inline pros::Motor arm(armPort, true);
-inline pros::Motor angler(anglerPort);
+inline pros::Motor angler(anglerPort, true);
 
 //************//
 // AUTONOMOUS //

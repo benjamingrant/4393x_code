@@ -9,8 +9,8 @@
 //*********************//
 
 // constants
-double p = 1;
-double i = 1;
+double p = 0.4;
+double i = 0.5;
 double d = 1;
 double target = 4.2;
 double targetError = 0.03;

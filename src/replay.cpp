@@ -30,27 +30,30 @@ void logCurrentControlState(){
 }
 
 // returns new log file created on the micro sd
-std::fstream generateLogFile(){
+std::fstream selectLogFile(){
     std::fstream outfile;
     std::fstream master_log;
-    master_log.open("/usd/master_log.txt");
+    master_log.open("/usd/master_log.txt", std::fstream::in);
 
     // write to the end of /usd/fuckup_dump.txt if something goes wrong
-    if(!master_log){
+    if(!master_log.is_open()){
+        master_log.close();
         displayControllerError("could not open master_log");
-        outfile.open("/usd/fuckup_dump.txt", std::ios::app);
+        outfile.open("/usd/logs/fuckup_dump.txt", std::ios::app);
         return outfile;
     }
 
     // create new file and name it according to (int) numLogs stored in /usd/master_log.txt
-    std::string path = "/usd/log-";
+    std::string path = "/usd/logs/log-";
     int numLogs;
     master_log >> numLogs;
+    master_log.close();
     path += std::to_string(numLogs + 1);
     outfile.open(path);
 
     // write new value of numLogs to /usd/master_log.txt
-
+    master_log.open("/usd/logs/master_log.txt", std::fstream::trunc);
+    master_log << "numLogs = " << (numLogs + 1);
 
     master_log.close();
 
