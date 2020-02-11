@@ -35,7 +35,7 @@ std::fstream selectLogFile(){
     std::fstream master_log;
     master_log.open("/usd/master_log.txt", std::fstream::in);
 
-    // write to the end of /usd/fuckup_dump.txt if something goes wrong
+    // write to the end of /usd/logs/fuckup_dump.txt if something goes wrong
     if(!master_log.is_open()){
         master_log.close();
         displayControllerError("could not open master_log");

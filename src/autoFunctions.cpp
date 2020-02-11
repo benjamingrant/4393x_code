@@ -30,7 +30,7 @@ unsigned long getV5Time(){
     // <debug>
     std::stringstream ss;
     ss << time;
-    displayControllerText(ss.str());
+    displayControllerMessage(ss.str());
     // </debug>
 
     return time;
@@ -50,7 +50,7 @@ void autoStack(){
     anglerPID.setOutputBounds(-117.0, 117.0);
 
     // <debug>
-    displayControllerText(anglerPID.getError());
+    displayControllerMessage(anglerPID.getError());
     // </debug>
 
     // PID loop

@@ -43,6 +43,7 @@ void opcontrol(void);
 #include <string>
 #include <sstream>
 #include <stdlib.h>
+#include <typeinfo>
 
 #endif
 

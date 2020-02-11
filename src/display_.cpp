@@ -1,39 +1,61 @@
-#include "main.h"
 #include "display_.h"
+#include "main.h"
 #include "globals.h"
 
-const char* formatStringForController(std::string prefix, std::string msg){
-    msg.insert(0, prefix);
-    const char *retVal = msg.c_str();
-    return retVal;
+//********************//
+// CONTROLLER DISPLAY //
+//********************//
+const char* formatDataForController(std::string prefix, std::string str){
+    std::stringstream ss;
+    ss << str;
+    std::string _str = ss.str();
+    _str.insert(0, prefix);
+    return _str.c_str();
+}
+const char* formatDataForController(std::string prefix, double value){
+    std::stringstream ss;
+    ss << value;
+    std::string _value = ss.str();
+    _value.insert(0, prefix);
+    return _value.c_str();
+}
+const char* formatDataForController(std::string prefix, int value){
+    std::stringstream ss;
+    ss << value;
+    std::string _value = ss.str();
+    _value.insert(0, prefix);
+    return _value.c_str();
+}
+const char* formatDataForController(std::string prefix, unsigned long value){
+    std::stringstream ss;
+    ss << value;
+    std::string _value = ss.str();
+    _value.insert(0, prefix);
+    return _value.c_str();
 }
 
-void displayControllerText(std::string msg){
+void displayControllerMessage(std::string value){
     master.clear();
     pros::delay(60);
-    master.print(0, 0, formatStringForController("M: ", msg));
+    master.print(0, 0, formatDataForController("M: ", value));
 }
-
-void displayControllerText(double value){
+void displayControllerMessage(double value){
     master.clear();
     pros::delay(60);
-    master.print(0, 0, formatStringForController("M: ", std::to_string(value)));
+    master.print(0, 0, formatDataForController("M: ", value));
 }
-
-void displayControllerText(int value){
+void displayControllerMessage(int value){
     master.clear();
     pros::delay(60);
-    master.print(0, 0, formatStringForController("M: ", std::to_string(value)));
+    master.print(0, 0, formatDataForController("M: ", value));
 }
-
-void displayControllerText(unsigned long value){
+void displayControllerMessage(unsigned long value){
     master.clear();
     pros::delay(60);
-    master.print(0, 0, formatStringForController("M: ", std::to_string(value)));
+    master.print(0, 0, formatDataForController("M: ", value));
 }
-
-void displayControllerError(std::string msg){
+void displayControllerError(std::string value){
     master.clear();
     pros::delay(60);
-    master.print(0, 0, formatStringForController("E: ", msg));
+    master.print(0, 0, formatDataForController("E: ", value));
 }

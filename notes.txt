@@ -4,7 +4,9 @@ TO DO:
 
 - Try out "shift key" button mapping
 
-# Try reversing the angler motor to fix autoStack
+- Try reversing the angler motor to fix autoStack
+
+- Try checking the error function to fix autoStack
 
 
 

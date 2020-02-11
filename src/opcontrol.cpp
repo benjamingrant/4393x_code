@@ -7,20 +7,6 @@
 using namespace pros;
 using namespace std;
 
-/**
- * Runs the operator control code. This function will be started in its own task
- * with the default priority and stack size whenever the robot is enabled via
- * the Field Management System or the VEX Competition Switch in the operator
- * control mode.
- *
- * If no competition control is connected, this function will run immediately
- * following initialize().
- *
- * If the robot is disabled or communications is lost, the
- * operator control task will be stopped. Re-enabling the robot will restart the
- * task, not resume it from where it left off.
- */
-
  //******************//
  // OPERATOR CONTROL //
  //******************//
@@ -80,7 +66,7 @@ void opcontrol() {
         // vibration test button mapping
         if(master.get_digital(DIGITAL_Y)){
             pros::delay(500);
-            displayControllerText("test");
+            displayControllerMessage("test");
             //master.rumble("...");
         }
 
@@ -108,11 +94,11 @@ void opcontrol() {
                 if(!controlStateLogging){
                     replay_log = selectLogFile();
                     controlStateLogging = true;
-                    displayControllerText("Recording started :-)");
+                    displayControllerMessage("Recording started :-)");
                 } else {
                     replay_log.close();
                     controlStateLogging = false;
-                    displayControllerText("Recording ended.");
+                    displayControllerMessage("Recording ended.");
                 }
             }
         }
