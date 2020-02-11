@@ -15,6 +15,8 @@ using namespace pros;
 
 void initialize() {
 	pros::lcd::initialize();
+
+    angler.set_encoder_units(E_MOTOR_ENCODER_ROTATIONS);
 	printAnglerPos();
 
 	pros::lcd::register_btn1_cb(printAnglerPos);
@@ -27,8 +29,6 @@ void initialize() {
 	intakeR.set_brake_mode(E_MOTOR_BRAKE_HOLD);
 	arm.set_brake_mode(E_MOTOR_BRAKE_HOLD);
 	angler.set_brake_mode(E_MOTOR_BRAKE_HOLD);
-
-	angler.set_encoder_units(E_MOTOR_ENCODER_ROTATIONS);
 }
 
 /**

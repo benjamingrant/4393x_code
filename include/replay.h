@@ -14,11 +14,6 @@ private:
     std::vector<int> motorVoltages;
 public:
     ControlState(std::uint32_t timeStamp, std::vector<int> motorVoltages) : timeStamp{timeStamp}, motorVoltages{motorVoltages} {};
-
-    ControlState() : timeStamp{0} {
-        std::vector<int> zeros{0,0,0,0,0,0,0,0};
-        motorVoltages = zeros;
-    };
 public:
     std::uint32_t getTimeStamp(){return timeStamp;};
     std::vector<int> getMotorVoltages(){return motorVoltages;};

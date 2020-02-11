@@ -12,8 +12,8 @@
 double p = 0.4;
 double i = 0.5;
 double d = 1;
-double target = 4.2;
-double targetError = 0.03;
+double target = 4.2 /*rotations*/;
+double targetError = 0.03 /*rotations*/;
 // input function
 double getAnglerPosition(){
     return angler.get_position();
@@ -45,20 +45,23 @@ void autoStack(){
     PIDController<double> anglerPID(p, i, d, getAnglerPosition, setAnglerMovement);
     // setup
     anglerPID.setEnabled(true);
+    anglerPID.setFeedbackWrapped(false);
     anglerPID.registerTimeFunction(getV5Time);
     anglerPID.setTarget(target);
     anglerPID.setOutputBounds(-117.0, 117.0);
+    anglerPID.setInputBounds(0, 4.5);
 
     // <debug>
-    displayControllerMessage(anglerPID.getError());
+    displayControllerMessage("an.err: " + std::to_string(anglerPID.getError()));
     // </debug>
 
     // PID loop
     while(std::abs(anglerPID.getError()) >= targetError){
-        anglerPID.tick(); // this is what actually does the PID controlling
-        pros::delay(100);              // delay 100ms so the smartbrain can think
+        // iterate the PID controller
+        anglerPID.tick();
+        pros::delay(50);
     }
 
     autoStackRunning = false;
-    master.rumble("--");
+    master.rumble(".-.");
 }

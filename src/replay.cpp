@@ -8,7 +8,7 @@
 //*********//
 
 void ControlState::writeToLogfile(){
-    replay_log << pros::millis() << "ms - state{";
+    replay_log << pros::millis() << "ms - controlState{";
     replay_log << "driveBL: " << motorVoltages[0] << ", ";
     replay_log << "driveBR: " << motorVoltages[1] << ", ";
     replay_log << "driveFL: " << motorVoltages[2] << ", ";
