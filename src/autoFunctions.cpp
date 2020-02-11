@@ -53,6 +53,8 @@ void autoStack(){
 
     // <debug>
     displayControllerMessage("an.err: " + std::to_string(anglerPID.getError()));
+    pros::delay(1000);
+    displayControllerMessage(getAnglerPosition(), 2);
     // </debug>
 
     // PID loop
