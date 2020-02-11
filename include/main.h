@@ -44,6 +44,7 @@ void opcontrol(void);
 #include <sstream>
 #include <stdlib.h>
 #include <typeinfo>
+#include <vector>
 
 #endif
 

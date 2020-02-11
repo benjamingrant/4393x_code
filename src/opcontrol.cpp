@@ -19,19 +19,28 @@ int cubicAnalogScale(int stickValue){
     return (stickValue^3) / (117^2);
 }
 
+void updateDriveTrain(){
+    // control drivetrain motors from master
+    int left = master.get_analog(ANALOG_LEFT_Y);
+    int right = master.get_analog(ANALOG_RIGHT_Y);
+    int scaledLeft = quadraticAnalogScale(left);    // STICK SCALING (quadratic)
+    int scaledRight = quadraticAnalogScale(right);
+    // int scaledLeft = cubicAnalogScale(left);    // STICK SCALING (cubic)
+    // int scaledRight = cubicAnalogScale(right);
+    driveBL = scaledLeft;
+    driveFL = scaledLeft;
+    driveBR = scaledRight;
+    driveFR = scaledRight;
+}
+
 void opcontrol() {
 	while (true) {
-        // control drivetrain motors from master
-        int left = master.get_analog(ANALOG_LEFT_Y);
-		int right = master.get_analog(ANALOG_RIGHT_Y);
-        int scaledLeft = quadraticAnalogScale(left);    // STICK SCALING (quadratic)
-        int scaledRight = quadraticAnalogScale(right);
-        // int scaledLeft = cubicAnalogScale(left);    // STICK SCALING (quadratic)
-        // int scaledRight = cubicAnalogScale(right);
-        driveBL = scaledLeft;
-        driveFL = scaledLeft;
-        driveBR = scaledRight;
-        driveFR = scaledRight;
+        //************************//
+        // CONVENTIONAL OPCONTROL //
+        //************************//
+
+        // control drive train motors from master
+        updateDriveTrain();
 
         // control arm motor from master
         if(master.get_digital(DIGITAL_R1)){
@@ -63,13 +72,6 @@ void opcontrol() {
             intakeR = 0;
         }
 
-        // vibration test button mapping
-        if(master.get_digital(DIGITAL_Y)){
-            pros::delay(500);
-            displayControllerMessage("test");
-            //master.rumble("...");
-        }
-
         // autoStack button mapping
         if(master.get_digital(DIGITAL_DOWN) && !autoStackRunning){
             pros::delay(500);  // delay to eliminate double press
@@ -81,31 +83,46 @@ void opcontrol() {
             setAnglerMovement(0);
         }
 
-//*****************************//
-// REPLAY (autonomous) LOGGING //
-//*****************************//
+        //****************//
+        // REPLAY LOGGING //
+        //****************//
 
         // controlStateLogging toggle button mapping
         if(master.get_digital(DIGITAL_X)){
             pros::delay(500); // delay to eliminate double press
             if(!pros::usd::is_installed()){
-                displayControllerError("No micro SD inserted!");
+                displayControllerError("No uSD!");
             } else {
                 if(!controlStateLogging){
-                    replay_log = selectLogFile();
+                    replay_log = generateLogFile();
                     controlStateLogging = true;
-                    displayControllerMessage("Recording started :-)");
+                    displayControllerMessage("log started");
                 } else {
                     replay_log.close();
                     controlStateLogging = false;
-                    displayControllerMessage("Recording ended.");
+                    displayControllerMessage("log ended");
                 }
             }
         }
 
         // log current ControlState if controlStateLogging is toggled
         if(controlStateLogging){
-            logCurrentControlState();
+            ControlState c = getCurrentControlState();
+            c.writeToLogfile();
+        }
+
+        //******************//
+        // REPLAY EXECUTION //
+        //******************//
+
+        // replay button mapping
+        if(master.get_digital(DIGITAL_Y)){
+            pros::delay(500); // delay to eliminate double press
+            if(!pros::usd::is_installed()){
+                displayControllerError("No uSD!");
+            } else {
+                executeLogfile(getLogfile(1));
+            }
         }
 
         // wait 20 ms

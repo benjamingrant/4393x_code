@@ -42,12 +42,17 @@ inline pros::Motor angler(anglerPort, true);
 
 inline int autonomousPreSet = 0;
 inline bool controlStateLogging = false;
-inline std::fstream replay_log;
 
-//**********************//
+//***********************//
 // RUNNING autoFunctions //
-//**********************//
+//***********************//
 
 inline bool autoStackRunning = false;
+
+//****************//
+// REPLAY Logging //
+//****************//
+
+inline std::fstream replay_log;
 
 #endif
