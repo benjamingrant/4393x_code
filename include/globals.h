@@ -10,10 +10,10 @@
 
 const int driveBLPort = 1;
 const int driveBRPort = 2;
-const int driveFLPort = 9;
-const int driveFRPort = 10;
-const int intakeLPort = 16;
-const int intakeRPort = 7;
+const int driveFLPort = 5;
+const int driveFRPort = 19;
+const int intakeLPort = 18;
+const int intakeRPort = 20;
 const int armPort = 15;
 const int anglerPort = 8;
 
@@ -31,8 +31,8 @@ inline pros::Motor driveBL(driveBLPort);
 inline pros::Motor driveBR(driveBRPort, true);
 inline pros::Motor driveFL(driveFLPort);
 inline pros::Motor driveFR(driveFRPort, true);
-inline pros::Motor intakeL(intakeLPort);
-inline pros::Motor intakeR(intakeRPort, true);
+inline pros::Motor intakeL(intakeLPort, true);
+inline pros::Motor intakeR(intakeRPort);
 inline pros::Motor arm(armPort, true);
 inline pros::Motor angler(anglerPort, true);
 
@@ -54,5 +54,6 @@ inline bool autoStackRunning = false;
 //****************//
 
 inline std::fstream replay_log;
+inline std::fstream exectutionLog;
 
 #endif

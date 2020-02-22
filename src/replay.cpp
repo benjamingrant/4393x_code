@@ -8,15 +8,30 @@
 //*********//
 
 void ControlState::writeToLogfile(){
-    replay_log << pros::millis() << "ms - controlState{";
-    replay_log << "driveBL: " << motorVoltages[0] << ", ";
-    replay_log << "driveBR: " << motorVoltages[1] << ", ";
-    replay_log << "driveFL: " << motorVoltages[2] << ", ";
-    replay_log << "driveFR: " << motorVoltages[3] << ", ";
-    replay_log << "intakeL: " << motorVoltages[4] << ", ";
-    replay_log << "intakeR: " << motorVoltages[5] << ", ";
-        replay_log << "arm: " << motorVoltages[6] << ", ";
-     replay_log << "angler: " << motorVoltages[7] << "};\n";
+    /*
+    example line:
+         time  driveBL  driveBR  driveFL  driveFR  intakeL  intakeR      arm   angler
+           20        0    10000        0    10000    12000    12000     2000        0
+    */
+
+    replay_log << std::setw(9) << pros::millis();
+
+
+    for(int v : motorVoltages){
+        replay_log << std::setw(9) << v;
+    }
+
+    replay_log << std::endl;
+
+    // replay_log << pros::millis() << "ms - controlState{";
+    // replay_log << "driveBL: " << motorVoltages[0] << ", ";
+    // replay_log << "driveBR: " << motorVoltages[1] << ", ";
+    // replay_log << "driveFL: " << motorVoltages[2] << ", ";
+    // replay_log << "driveFR: " << motorVoltages[3] << ", ";
+    // replay_log << "intakeL: " << motorVoltages[4] << ", ";
+    // replay_log << "intakeR: " << motorVoltages[5] << ", ";
+    //     replay_log << "arm: " << motorVoltages[6] << ", ";
+    //  replay_log << "angler: " << motorVoltages[7] << "};\n";
 }
 
 ControlState getCurrentControlState(){
@@ -37,30 +52,35 @@ ControlState getCurrentControlState(){
 std::fstream generateLogFile(){
     std::stringstream outfilePath;
     std::fstream outfile;
-    std::fstream master_log;
 
     // open /usd/master_log.txt, which contains number of active logs
-    master_log.open("/usd/master_log.txt", std::fstream::in);
+    std::ifstream input_master_log;
+    input_master_log.open("/usd/master_log.txt", std::ios::in);
 
-    // write to the end of /usd/fuckup_dump.txt if something goes wrong
-    if(!master_log.is_open()){
+    // write to /usd/fuckup_dump.txt if something goes wrong
+    if(!input_master_log.is_open()){
         displayControllerError("could not open master_log");
-        outfile.open("/usd/fuckup_dump.txt", std::ios::app);
+        outfile.open("/usd/fuckup_dump.txt", std::ios::out | std::ios::trunc);
         return outfile;
     }
 
     // create new file and name it according to (int) numLogs stored in /usd/master_log.txt
     int numLogs;
-    master_log >> numLogs;
-    master_log.close();
-    outfilePath << "/usd/log-" << (numLogs + 1) << ".txt";
-    outfile.open(outfilePath.str());
+    input_master_log >> numLogs;
+    numLogs = numLogs + 1;
+    input_master_log.close();
+    outfilePath << "/usd/log-" << numLogs << ".txt";
+    displayControllerMessage(outfilePath.str());
+    outfile.open(outfilePath.str().c_str(), std::ios::out | std::ios::trunc);
+
+    // write [header/legend] at the top
+    outfile << "time  driveBL  driveBR  driveFL  driveFR  intakeL  intakeR      arm   angler" << std::endl;
 
     // write new value of numLogs to /usd/master_log.txt
-    master_log.open("/usd/master_log.txt", std::fstream::trunc);
-    master_log << "numLogs = " << (numLogs + 1);
-
-    master_log.close();
+    std::ofstream output_master_log;
+    output_master_log.open("/usd/master_log.txt", std::ios::trunc);
+    output_master_log << numLogs << std::endl;
+    output_master_log.close();
 
     return outfile;
 }
@@ -70,35 +90,50 @@ std::fstream generateLogFile(){
 //********//
 
 // returns opened log file ("/usd/log-[logNumber].txt")
-std::ifstream getLogfile(int logNumber){
-    std::stringstream outfilePath;
-    std::ifstream outfile;
+const char * getLogfilePath(int logNumber){
+    std::stringstream logfilePath;
+    std::fstream logfile;
 
     // open specified log file
-    outfilePath << "/usd/log-" << logNumber << ".txt";
-    outfile.open(outfilePath.str(), std::fstream::trunc);
+    logfilePath << "/usd/log-" << logNumber << ".txt";
 
-    return outfile;
+    return logfilePath.str().c_str();
 }
 
 // set motors to a ControlState from selected log selected log file
 void executeControlState(ControlState c){
+    // putting the global motor objects in a vector for easy looping
     std::vector<pros::Motor> motors{driveBL, driveBR, driveFL, driveFR, intakeL, intakeR, arm, angler};
 
-    // iterate through the robot's motors, setting each's voltage to c's corresponding voltage
+    // iterate through the robot's motors, setting each's voltage from the cunt-roll state
     for(int i = 0; i < motors.size(); i++){
         motors[i].move_voltage(c.getMotorVoltages()[i]);
     }
 }
 
 // parse selected log file and execute its ControlStates
-void executeLogfile(std::ifstream logfile){
+void executeReplay(int logfileNumber){
+    // open exectutionLog
+    exectutionLog.open(getLogfilePath(logfileNumber), std::ios::in);
+
+    // error
+    if(!exectutionLog.is_open()){
+        std::stringstream ss;
+        ss << "exlog" << logfileNumber << "not open" ;
+        displayControllerError(ss.str());
+        return;
+    }
+
+    // get rid of header
+    std::string header;
+    std::getline(exectutionLog, header);
+
     // holds a line from the log file
-    std::string _currentControlState;
+    std::string currentControlState;
 
     // iterates over every line in the log file
-    while(std::getline(logfile, _currentControlState)){
-        std::istringstream iss(_currentControlState);
+    while(std::getline(exectutionLog, currentControlState)){
+        std::istringstream iss(currentControlState);
 
         std::uint32_t time;
 
@@ -116,13 +151,14 @@ void executeLogfile(std::ifstream logfile){
         // generate ControlState from line
         ControlState currentControlState{time, voltages};
 
-        // set motors' voltages
+        // set motors' voltages from the controlState
         executeControlState(currentControlState);
 
         // delay 20 ms
         pros::delay(20);
     }
 
-    logfile.close();
+    // close file and give a status vibration
+    exectutionLog.close();
     master.rumble("._.");
 }

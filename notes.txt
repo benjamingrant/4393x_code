@@ -20,6 +20,35 @@ angler Motor displacement [in rotations] at end of stacking movement:
 REPLAY LOGGING:
 
 - entry example:
-        20ms - controlState{driveBL: 0, driveBR: 100, driveFL: 0, driveFR: 100, intakeL: 127, intakeR: 127, arm: 0, angler: 0};
-        40ms - controlState{driveBL: 0, driveBR: 50, driveFL: 0, driveFR: 50, intakeL: 0, intakeR: 0, arm: 0, angler: 0};
-        60ms - controlState{driveBL: 0, driveBR: -20, driveFL: 0, driveFR: -20, intakeL: 0, intakeR: 0, arm: 0, angler: 0};
+        legend:
+        time  driveBL  driveBR  driveFL  driveFR  intakeL  intakeR      arm   angler
+          20    00000    10000        0    10000    12000    12000     2000        0
+
+
+
+FILE WRITING REDUNDANCY FIX: (for versatility in the future)
+- "legend" at the top of the file with port names:
+
+        - driveBL   driveBR   driveFL   driveFR   intakeL   intakeR   arm   angler
+
+
+
+
+        DATA ABORT EXCEPTION
+
+        CURRENT TASK: User Operator Control (PROS)
+        REGISTERS AT ABORT
+         r0: 0x04a014f8  r1: 0x00000000  r2: 0x00000000  r3: 0x00000000  r4: 0x038000dc  r5: 0x03b1eea8  r6: 0x03815d58  r7: 0x04a014f8
+         r8: 0x08080808  r9: 0x09090909 r10: 0x10101010 r11: 0x11111111 r12: 0x0395682c  sp: 0x03b1ee18  lr: 0x07801cec  pc: 0x07801d04
+
+        BEGIN STACK TRACE
+        	0x7801d04
+        	0x7801cec
+        	0x78021c8
+        	0x78015f8
+        	0x384a4e4
+        	0x3848d00
+        	0x38434d4
+        END OF TRACE
+        HEAP USED: 6464 bytes
+        STACK REMAINING AT ABORT: 4293129748 bytes

@@ -29,6 +29,10 @@ void initialize() {
 	intakeR.set_brake_mode(E_MOTOR_BRAKE_HOLD);
 	arm.set_brake_mode(E_MOTOR_BRAKE_HOLD);
 	angler.set_brake_mode(E_MOTOR_BRAKE_HOLD);
+    driveFL.set_brake_mode(E_MOTOR_BRAKE_COAST);
+    driveFR.set_brake_mode(E_MOTOR_BRAKE_COAST);
+    driveBL.set_brake_mode(E_MOTOR_BRAKE_COAST);
+    driveBR.set_brake_mode(E_MOTOR_BRAKE_COAST);
 }
 
 /**

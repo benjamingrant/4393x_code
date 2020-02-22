@@ -28,42 +28,52 @@ unsigned long getV5Time(){
     unsigned long time = static_cast<unsigned long> (pros::millis());
 
     // <debug>
-    std::stringstream ss;
-    ss << time;
-    displayControllerMessage(ss.str());
+    // std::stringstream ss;
+    // ss << time;
+    // displayControllerMessage(ss.str());
     // </debug>
 
     return time;
 }
 
-//****************************************//
-// autoStack Function (Run in a New Task) //
-//****************************************//
+//**********************************************************//
+// autoStack PID (not working) Function (Run in a New Task) //
+//**********************************************************//
 
 void autoStack(){
-    // PID loop to control the angler motor (i. e. bring the tray to 90º)
-    PIDController<double> anglerPID(p, i, d, getAnglerPosition, setAnglerMovement);
-    // setup
-    anglerPID.setEnabled(true);
-    anglerPID.setFeedbackWrapped(false);
-    anglerPID.registerTimeFunction(getV5Time);
-    anglerPID.setTarget(target);
-    anglerPID.setOutputBounds(-117.0, 117.0);
-    anglerPID.setInputBounds(0, 4.5);
-
-    // <debug>
-    displayControllerMessage("an.err: " + std::to_string(anglerPID.getError()));
-    pros::delay(1000);
-    displayControllerMessage(getAnglerPosition(), 2);
-    // </debug>
-
-    // PID loop
-    while(std::abs(anglerPID.getError()) >= targetError){
-        // iterate the PID controller
-        anglerPID.tick();
-        pros::delay(50);
-    }
-
-    autoStackRunning = false;
-    master.rumble(".-.");
+    angler.move(127);
+    pros::delay(1200);
+    angler.move(25);
+    pros::delay(1200);
+    angler.move(0);
 }
+
+// void autoStack(){
+//     // PID loop to control the angler motor (i. e. bring the tray to 90º)
+//     PIDController<double> anglerPID(p, i, d, getAnglerPosition, setAnglerMovement);
+//     // setup
+//     anglerPID.setEnabled(true);
+//     anglerPID.setFeedbackWrapped(false);
+//     anglerPID.registerTimeFunction(getV5Time);
+//     anglerPID.setTarget(target);
+//     anglerPID.setOutputBounds(-117.0, 117.0);
+//     anglerPID.setInputBounds(0, 4.5);
+//
+//     // <debug>
+//     std::stringstream ss;
+//     ss << getAnglerPosition() << " : " << anglerPID.getError();
+//     displayControllerMessage(ss.str());
+//     // pros::delay(1000);
+//     // displayControllerMessage(getAnglerPosition(), 2);
+//     // </debug>
+//
+//     // PID loop
+//     while(std::abs(anglerPID.getError()) >= targetError){
+//         // iterate the PID controller
+//         anglerPID.tick();
+//         pros::delay(50);
+//     }
+//
+//     autoStackRunning = false;
+//     master.rumble(".-.");
+// }

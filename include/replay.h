@@ -30,13 +30,13 @@ std::fstream generateLogFile();
 // Replay Execution //
 //******************//
 
-// returns opened log file ("/usd/log-[logNumber].txt")
-std::ifstream getLogfile(int logNumber);
+// returns log file address ("/usd/log-[logNumber].txt")
+const char * getLogfilePath(int logNumber);
 
 // set motors to a ControlState from selected log selected log file
 void executeControlState(ControlState c);
 
-// parse selected log file and execute ControlStates
-void executeLogfile(std::ifstream logfile);
+// parse current execution logfile and execute ControlStates
+void executeReplay(int logfileNumber);
 
 #endif

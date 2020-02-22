@@ -27,4 +27,6 @@ void autonomous() {
     // spit out intake a little bit
 
     // start autoStack in a new task
+
+    executeReplay(1);
 }

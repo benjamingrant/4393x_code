@@ -45,6 +45,7 @@ void opcontrol(void);
 #include <stdlib.h>
 #include <typeinfo>
 #include <vector>
+#include <iomanip>
 
 #endif
 

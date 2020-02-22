@@ -76,11 +76,11 @@ void opcontrol() {
         if(master.get_digital(DIGITAL_DOWN) && !autoStackRunning){
             pros::delay(500);  // delay to eliminate double press
             autoStackRunning = true;
-            pros::Task stack(autoStack);
+            pros::Task stack_task(autoStack, "autoStack");
             // stack.get_state();
-            setAnglerMovement(50);
-            pros::delay(500);
-            setAnglerMovement(0);
+            // setAnglerMovement(50);
+            // pros::delay(500);
+            // setAnglerMovement(0);
         }
 
         //****************//
@@ -96,7 +96,6 @@ void opcontrol() {
                 if(!controlStateLogging){
                     replay_log = generateLogFile();
                     controlStateLogging = true;
-                    displayControllerMessage("log started");
                 } else {
                     replay_log.close();
                     controlStateLogging = false;
@@ -121,7 +120,7 @@ void opcontrol() {
             if(!pros::usd::is_installed()){
                 displayControllerError("No uSD!");
             } else {
-                executeLogfile(getLogfile(1));
+                executeReplay(1);
             }
         }
 
