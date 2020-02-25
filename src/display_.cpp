@@ -54,3 +54,14 @@ void displayControllerError(std::string value){
     pros::delay(60);
     master.print(0, 0, formatDataForController("E: ", value));
 }
+
+void controllerCountdown(int seconds){
+    master.clear();
+    for(int i = seconds; i > 0; i--){
+        master.rumble(".");
+        pros::delay(100);
+        displayControllerMessage(i);
+        pros::delay(900);
+    }
+    master.clear();
+}

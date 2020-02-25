@@ -13,6 +13,7 @@ void displayControllerMessage(double value);
 void displayControllerMessage(int value);
 void displayControllerMessage(unsigned long value);
 void displayControllerError(std::string value);
+void controllerCountdown(int seconds);
 
 
 #endif

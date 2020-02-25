@@ -27,6 +27,6 @@ void autonomous() {
     // spit out intake a little bit
 
     // start autoStack in a new task
-
+    exectutionLog = getLogFile(1);
     executeReplay(1);
 }

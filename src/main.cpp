@@ -33,6 +33,8 @@ void initialize() {
     driveFR.set_brake_mode(E_MOTOR_BRAKE_COAST);
     driveBL.set_brake_mode(E_MOTOR_BRAKE_COAST);
     driveBR.set_brake_mode(E_MOTOR_BRAKE_COAST);
+
+    replay_log = getLogFile(1);
 }
 
 /**

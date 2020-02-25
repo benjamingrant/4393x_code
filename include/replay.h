@@ -24,7 +24,8 @@ public:
 ControlState getCurrentControlState();
 
 // returns new log file created on the micro sd ("/usd/log-[logNumber].txt")
-std::fstream generateLogFile();
+std::fstream newLogFile();
+std::fstream getLogFile(int logNumber);
 
 //******************//
 // Replay Execution //

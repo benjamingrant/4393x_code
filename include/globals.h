@@ -53,6 +53,9 @@ inline bool autoStackRunning = false;
 // REPLAY Logging //
 //****************//
 
+inline uint32_t record_t0;
+inline uint32_t record_t1;
+
 inline std::fstream replay_log;
 inline std::fstream exectutionLog;
 

@@ -49,7 +49,7 @@ ControlState getCurrentControlState(){
 }
 
 // returns new log file created on the micro sd
-std::fstream generateLogFile(){
+std::fstream newLogFile(){
     std::stringstream outfilePath;
     std::fstream outfile;
 
@@ -81,6 +81,23 @@ std::fstream generateLogFile(){
     output_master_log.open("/usd/master_log.txt", std::ios::trunc);
     output_master_log << numLogs << std::endl;
     output_master_log.close();
+
+    return outfile;
+}
+
+// returns (new) or (old, truncated) file on the micro sd
+std::fstream getLogFile(int logNumber){
+    std::stringstream outfilePath;
+    std::fstream outfile;
+
+    // create file path from logNumber
+    outfilePath << "/usd/log-" << logNumber << ".txt";
+
+    // open and erase the file
+    outfile.open(outfilePath.str().c_str(), std::ios::out | std::ios::trunc);
+
+    // write [header/legend] at the top
+    outfile << "time  driveBL  driveBR  driveFL  driveFR  intakeL  intakeR      arm   angler" << std::endl;
 
     return outfile;
 }
@@ -119,10 +136,12 @@ void executeReplay(int logfileNumber){
     // error
     if(!exectutionLog.is_open()){
         std::stringstream ss;
-        ss << "exlog" << logfileNumber << "not open" ;
+        ss << "exlog " << logfileNumber << " not open" ;
         displayControllerError(ss.str());
         return;
     }
+
+    uint32_t t0 = pros::millis();
 
     // get rid of header
     std::string header;
@@ -154,11 +173,16 @@ void executeReplay(int logfileNumber){
         // set motors' voltages from the controlState
         executeControlState(currentControlState);
 
-        // delay 20 ms
-        pros::delay(20);
+        // delay 22 ms
+        pros::delay(31);
     }
+
+    uint32_t t1 = pros:: millis();
 
     // close file and give a status vibration
     exectutionLog.close();
-    master.rumble("._.");
+//master.rumble("._.");
+    std::stringstream ss;
+    ss << (t1 - t0);
+    displayControllerMessage(ss.str());
 }

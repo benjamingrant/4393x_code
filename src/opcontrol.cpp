@@ -94,12 +94,17 @@ void opcontrol() {
                 displayControllerError("No uSD!");
             } else {
                 if(!controlStateLogging){
-                    replay_log = generateLogFile();
+                    record_t0 = pros::millis();
+                    replay_log = getLogFile(1);
                     controlStateLogging = true;
+                    displayControllerMessage("log start: slot 1");
                 } else {
                     replay_log.close();
                     controlStateLogging = false;
-                    displayControllerMessage("log ended");
+                    record_t1 = pros::millis();
+                    std::stringstream ss;
+                    ss << (record_t1 - record_t0);
+                    displayControllerMessage(ss.str());
                 }
             }
         }
@@ -125,6 +130,6 @@ void opcontrol() {
         }
 
         // wait 20 ms
-		pros::delay(20);
+		pros::delay(30);
 	}
 }
